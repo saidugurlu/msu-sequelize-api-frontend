@@ -2,17 +2,25 @@ body {
   background-color: #333;
   color: #ccc;
   padding: 20px;
-
   .modal {
     color: #000;
   }
   .flashcards {
     margin-top: 20px;
-
     .flashcard {
       border: 1px solid #777;
       padding: 10px;
       margin-bottom: 10px;
       background-color: #222;
+
+      .buttonArea {
+        margin-top: 5px;
+
+        button {
+          margin-right: 5px;
+        }
+      }
     }
+  }
+
 }

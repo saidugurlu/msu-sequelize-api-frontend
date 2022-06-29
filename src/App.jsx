@@ -13,15 +13,15 @@ function App() {
 			setFlashcards((await axios.get(url)).data);
 		})();
 	}, []);
+
 	const handleFlashcardSave = (e) => {
 		e.preventDefault();
-		const requestOptions = {
-			category: fieldCategory,
-			front: fieldFront,
-			back: fieldBack,
-		};
 		axios
-			.post(url, requestOptions)
+			.post(url, {
+				category: fieldCategory,
+				front: fieldFront,
+				back: fieldBack,
+			})
 			.then(function (response) {
 				console.log(response);
 			})
@@ -29,12 +29,15 @@ function App() {
 				console.log(error);
 			});
 	};
+
+	const handleDeleteButton = (e, flashcard) => {
+		alert('delete flashcard #' + flashcard.id);
+	};
+
 	return (
 		<div className="App">
 			<h1>Flashcards</h1>
 			<p>There are {flashcards.length} flashcards.</p>
-
-
 			<Modal buttonText="Add New Flashcard">
 				<h2>Add Flashcard</h2>
 				<form className="modalContent">
@@ -69,15 +72,28 @@ function App() {
 					</div>
 				</form>
 			</Modal>
-      {flashcards.map((flashcard, i) => {
-				return (
-					<div key={i} className="flashcard">
-						<div className="category">{flashcard.category}</div>
-						<div className="front">{flashcard.front}</div>
-						<div className="back">{flashcard.back}</div>
-					</div>
-				);
-			})}
+			<div className="flashcards">
+				{flashcards.map((flashcard, i) => {
+					return (
+						<div key={i} className="flashcard">
+							<div className="category">{flashcard.category}</div>
+							<div className="front">{flashcard.front}</div>
+							<div className="back">{flashcard.back}</div>
+							<div className="buttonArea">
+								<button
+									className="delete"
+									onClick={(e) =>
+										handleDeleteButton(e, flashcard)
+									}
+								>
+									Delete
+								</button>
+								<button className="edit">Edit</button>
+							</div>
+						</div>
+					);
+				})}
+			</div>
 		</div>
 	);
 }

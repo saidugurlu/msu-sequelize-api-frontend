@@ -3,25 +3,22 @@ import axios from 'axios';
 import './App.scss';
 import Modal from './components/Modal';
 const url = 'http://localhost:3042/flashcards';
-
 function App() {
 	const [flashcards, setFlashcards] = useState([]);
 	const [fieldCategory, setFieldCategory] = useState('');
 	const [fieldFront, setFieldFront] = useState('');
 	const [fieldBack, setFieldBack] = useState('');
-
 	useEffect(() => {
 		(async () => {
 			setFlashcards((await axios.get(url)).data);
 		})();
 	}, []);
-
 	const handleFlashcardSave = (e) => {
 		e.preventDefault();
 		const requestOptions = {
 			category: fieldCategory,
 			front: fieldFront,
-			back: fieldBack
+			back: fieldBack,
 		};
 		axios
 			.post(url, requestOptions)
@@ -32,11 +29,20 @@ function App() {
 				console.log(error);
 			});
 	};
-
 	return (
 		<div className="App">
 			<h1>Flashcards</h1>
 			<p>There are {flashcards.length} flashcards.</p>
+
+			{flashcards.map((flashcard, i) => {
+				return (
+					<div key={i} className="flashcard">
+						<div className="category">{flashcard.category}</div>
+						<div className="front">{flashcard.front}</div>
+						<div className="back">{flashcard.back}</div>
+					</div>
+				);
+			})}
 			<Modal buttonText="Add New Flashcard">
 				<h2>Add Flashcard</h2>
 				<form className="modalContent">
@@ -74,5 +80,4 @@ function App() {
 		</div>
 	);
 }
-
 export default App;
